@@ -35,11 +35,24 @@ const db = new sqlite.Database('sq.db', (err) => {
 // });
 
 // db.run(`update user set name='akmal' where id=1;`);
-db.run(`update user set lastname='raj' where id = 1;`);
-
-db.each('select * from user where id=?;', [1], (err, row) => {
-  console.log(row);
-});
+// db.run(`update user set lastname='raj' where id = 1;`);
+// db.run('drop table post;');
+// db.exec(
+//   'create table post(id INTEGER PRIMARY KEY, title varchar(255), authorId INTEGER, FOREIGN KEY(authorId) REFERENCES user(id))'
+// );
+// db.run('delete from post where authorId = 5;');
+// db.each('select * from post;', (err, row) => {
+//   console.log(row);
+// });
+// db.run(`PRAGMA foreign_keys = ON;`);
+// db.run(`insert into post(authorId, title) Values(1,'this is life?');`);
+db.each(
+  'select user.id,user.name,user.email,user.lastname,post.authorId, post.title from user inner join post on user.id = post.authorId where user.id = ?;',
+  [1],
+  (err, row) => {
+    console.log(row);
+  }
+);
 
 const app = express();
 
